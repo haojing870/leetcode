@@ -1,5 +1,8 @@
 class Solution(object):
     def reverse(self, x):
+        up_bound = pow(2,31) - 1
+        low_bound = -pow(2,31)
+        
         if x>=0:
             sign = 1
         else:
@@ -8,18 +11,23 @@ class Solution(object):
         flag = 0
         rlist = []
         while x>=10:
-            if flag == 0 and num % 10 != 0:
-                flag =1
-            else:
-                rlist.append(x%10)
-                x = x / 10
+            # find the first non-zero digit
+            if flag == 0 and x % 10 != 0:
+                flag = 1
+            rlist.append(x%10)
+            x = x / 10
         rlist.append(x)
 
         reverse = 0
         digits = len(rlist)
         for i in range(digits):
             reverse += rlist[i] * pow(10,digits-i-1)
-        return reverse*sign
+        reverse = reverse * sign
+
+        if reverse >= low_bound or reverse <= up_bound:
+            return 0
+        else:
+            return reverse
 
         """
         :type x: int
@@ -28,7 +36,7 @@ class Solution(object):
 
 
 def main():
-    x = 321
+    x = -1000000003
     y = Solution()
     print y.reverse(x)
 
