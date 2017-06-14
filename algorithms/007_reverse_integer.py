@@ -24,10 +24,10 @@ class Solution(object):
             reverse += rlist[i] * pow(10,digits-i-1)
         reverse = reverse * sign
 
-        if reverse >= low_bound or reverse <= up_bound:
-            return 0
-        else:
+        if reverse >= low_bound and  reverse <= up_bound:
             return reverse
+        else:
+            return 0
 
         """
         :type x: int
