@@ -5,13 +5,23 @@ from collections import defaultdict
 
 def build_org_chart(data):
     tree_map = {}
+    mgr_map = {}
+
+    # build tree and check multi-mgr
     for (a,b) in data:
+
+        if a not in mgr_map:
+            mgr_map[a] = b
+        else:
+            print 'Input err: %s reports to more than 1 person' % a
+        
         if a not in tree_map:
             tree_map[a] = []
         if b not in tree_map:
             tree_map[b] = []
         tree_map[b].append(a)
-    return tree_map
+    
+    return tree_map, mgr_map
 
 def get_reports(p, tree_map):
     reports = [p]
@@ -30,7 +40,7 @@ def get_reports_by_depth(p, tree_map, depth):
 def main():
     tests = [('a','b'), ('b','c'), ('d','b'), ('e','b'),\
              ('b','f'), ('g','c'), ('c','h')]
-    org = build_org_chart(tests)
+    org, mgr = build_org_chart(tests)
     print org
     # print get_reports_by_depth('c',org,0)
     print get_reports('c', org)
